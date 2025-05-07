@@ -4,8 +4,8 @@ export interface Habit {
   id: string;
   category: HabitCategory;
   name: string;
-  note: string;
+  note?: string;
   days: string[];
-  times: string[];
+  times?: string[];
   createdOn: Date;
 }
