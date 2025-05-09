@@ -12,6 +12,9 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import DaysSelector from "../components/DaysSelector";
 import { weekDays } from "../constants/daysOfTheWeek";
 import TimeSelector from "../components/TimeSelector";
+import globalStyles from "../styles/globalStyles/globalStyles";
+import componentStyles from "../styles/componentStyles/componentStyles";
+import { ScrollView } from "react-native-gesture-handler";
 
 const AddHabit = () => {
   const addHabit = useHabitStore((state) => state.addHabit);
@@ -52,7 +55,7 @@ const AddHabit = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={globalStyles.pageContainer}>
       <Formik
         initialValues={initialValues}
         validationSchema={addHabitSchema}
@@ -68,49 +71,43 @@ const AddHabit = () => {
           setFieldValue,
         }) => (
           <View style={{ gap: 20 }}>
-            <View style={{ backgroundColor: "#E4E1DE" }}>
+            <View style={globalStyles.simpleContainer}>
               <Text>habit name</Text>
               <TextInput
                 placeholder="eg: drink water"
                 onChangeText={handleChange("name")}
                 onBlur={handleBlur("name")}
                 value={values.name}
+                style={globalStyles.textInput}
               />
               {touched.name && errors.name && (
-                <Text style={{ color: "red" }}>{errors.name}</Text>
+                <Text style={globalStyles.errorText}>{errors.name}</Text>
               )}
             </View>
 
-            <View style={{ backgroundColor: "#E4E1DE" }}>
-              <Text>Categories</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  justifyContent: "center",
-                  rowGap: 8,
-                  columnGap: 8,
-                }}
+            <View
+              style={[globalStyles.simpleContainer, { marginHorizontal: -20 }]}
+            >
+              <Text style={{ paddingLeft: 20 }}>Categories</Text>
+              <ScrollView
+                contentContainerStyle={globalStyles.scrollView}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
               >
                 {habitCategories.map((category) => (
                   <TouchableOpacity
                     key={category.id}
                     onPress={() => setFieldValue("category", category)}
-                    style={{
-                      width: "18%",
-                      aspectRatio: 1,
-                      backgroundColor: category.colors[1],
-                      borderRadius: 12,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: 8,
-                      gap: 3,
-                      borderWidth: 1,
-                      borderColor:
-                        values.category?.id === category.id
-                          ? category.colors[0]
-                          : "transparent",
-                    }}
+                    style={[
+                      componentStyles.categoryIcons,
+                      {
+                        backgroundColor: category.colors[1],
+                        borderColor:
+                          values.category?.id === category.id
+                            ? category.colors[0]
+                            : "transparent",
+                      },
+                    ]}
                   >
                     <FontAwesome6
                       name={category.icon}
@@ -122,26 +119,27 @@ const AddHabit = () => {
                     </Text>
                   </TouchableOpacity>
                 ))}
-              </View>
+              </ScrollView>
               {touched.category && errors.category && (
-                <Text style={{ color: "red" }}>{errors.category}</Text>
+                <Text style={globalStyles.errorText}>{errors.category}</Text>
               )}
             </View>
 
-            <View style={{ backgroundColor: "#E4E1DE" }}>
+            <View style={globalStyles.simpleContainer}>
               <Text>Note</Text>
               <TextInput
                 placeholder="here you can add an optional note"
                 onChangeText={handleChange("note")}
                 onBlur={handleBlur("note")}
                 value={values.note}
+                style={globalStyles.textInput}
               />
               {touched.note && errors.note && (
-                <Text style={{ color: "red" }}>{errors.note}</Text>
+                <Text style={globalStyles.errorText}>{errors.note}</Text>
               )}
             </View>
 
-            <View style={{ backgroundColor: "#E4E1DE" }}>
+            <View style={globalStyles.simpleContainer}>
               <Text>Repeat Days</Text>
               <TouchableOpacity
                 onPress={() => {
@@ -150,14 +148,7 @@ const AddHabit = () => {
                   );
                   setFieldValue("days", allSelected ? [] : allDays);
                 }}
-                style={{
-                  alignSelf: "flex-end",
-                  paddingVertical: 6,
-                  paddingHorizontal: 12,
-                  backgroundColor: "#f3f4f6",
-                  borderRadius: 8,
-                  marginBottom: 8,
-                }}
+                style={componentStyles.repeatDaily}
               >
                 <Text style={{ fontWeight: "600" }}>
                   {allDays.every((day) => values.days.includes(day))
@@ -176,10 +167,10 @@ const AddHabit = () => {
                 }}
               />
               {touched.days && errors.days && (
-                <Text style={{ color: "red" }}>{errors.days}</Text>
+                <Text style={globalStyles.errorText}>{errors.days}</Text>
               )}
             </View>
-            <View style={{ backgroundColor: "#E4E1DE" }}>
+            <View style={globalStyles.simpleContainer}>
               <Text>Add Time</Text>
               <TimeSelector
                 addTime={(time) => {
@@ -188,7 +179,7 @@ const AddHabit = () => {
                 }}
               />
               {touched.times && errors.times && (
-                <Text style={{ color: "red" }}>{errors.times}</Text>
+                <Text style={globalStyles.errorText}>{errors.times}</Text>
               )}
             </View>
 
