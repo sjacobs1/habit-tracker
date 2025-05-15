@@ -1,9 +1,10 @@
 import { View, Text, Pressable } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { Habit } from "../models/habitModel";
 import DaysSelector from "./DaysSelector";
 import { weekDays } from "../constants/daysOfTheWeek";
+import componentStyles from "../styles/componentStyles/componentStyles";
 
 interface HabitCardProps {
   habits: Habit[];
@@ -25,33 +26,18 @@ const HabitCard = ({
             onPress={() => setExpandedHabitId(isExpanded ? null : habit.id)}
             key={habit.id}
           >
-            <View
-              style={{
-                backgroundColor: "white",
-                marginBottom: 20,
-                borderRadius: 5,
-                shadowColor: "grey",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 3.84,
-              }}
-            >
+            <View style={componentStyles.cardContainer}>
               <View
-                style={{
-                  flexDirection: "row",
-                  padding: 10,
-                  borderColor: habit.category.colors[1],
-                  borderBottomWidth: 2,
-                }}
+                style={[
+                  componentStyles.cardHeader,
+                  { borderColor: habit.category.colors[1] },
+                ]}
               >
                 <View
-                  style={{
-                    backgroundColor: habit.category.colors[1],
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 5,
-                  }}
+                  style={[
+                    componentStyles.cardIconWrapper,
+                    { backgroundColor: habit.category.colors[1] },
+                  ]}
                 >
                   <FontAwesome6
                     name={habit.category.icon}
@@ -59,73 +45,37 @@ const HabitCard = ({
                     color={habit.category.colors[0]}
                   />
                 </View>
-                <View style={{ flex: 5, paddingHorizontal: 10 }}>
+                <View style={componentStyles.cardTextWrapper}>
                   <Text>{habit.name}</Text>
-                  <Text
-                    style={{ color: habit.category.colors[0], fontSize: 12 }}
-                  >
+                  <Text style={{ color: habit.category.colors[0], fontSize: 12 }}>
                     {habit.category.name}
                   </Text>
                 </View>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <FontAwesome6
-                    name="circle"
-                    size={24}
-                    color="lightgrey"
-                  />
+                <View style={componentStyles.cardRightIcon}>
+                  <FontAwesome6 name="circle" size={24} color="lightgrey" />
                 </View>
               </View>
+
               {isExpanded && (
-                <View
-                  style={{
-                    paddingHorizontal: 10,
-                    marginVertical: 10,
-                  }}
-                >
-                  <View style={{ flex: 1, marginLeft: 6, gap: 15 }}>
-                    <View
-                      style={{
-                        padding: 10,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 25,
-                      }}
-                    >
+                <View style={componentStyles.expandedContentWrapper}>
+                  <View style={componentStyles.expandedInnerContainer}>
+                    <View style={componentStyles.noteRow}>
                       <FontAwesome6 name="sticky-note" size={15} color="grey" />
                       {habit.note ? (
-                        <Text style={{ flexShrink: 1, color: "#5C5C5C" }}>
-                          {habit.note}
-                        </Text>
+                        <Text style={componentStyles.noteText}>{habit.note}</Text>
                       ) : (
-                        <Text
-                          style={{ color: "lightgrey", fontStyle: "italic" }}
-                        >
+                        <Text style={componentStyles.noNoteText}>
                           no note added
                         </Text>
                       )}
                     </View>
 
-                    <View
-                      style={{
-                        padding: 10,
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 20,
-                      }}
-                    >
+                    <View style={componentStyles.calendarRow}>
                       <FontAwesome6 name="calendar" size={15} color="grey" />
                       <DaysSelector
                         days={weekDays}
                         selectedDays={habit.days}
-                        containerStyle={{
-                          justifyContent: "flex-start",
-                        }}
+                        containerStyle={{ justifyContent: "flex-start" }}
                         buttonStyle={(selected) => ({
                           backgroundColor: selected
                             ? habit.category.colors[1]
@@ -144,34 +94,17 @@ const HabitCard = ({
                         })}
                       />
                     </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <View
-                        style={{
-                          padding: 10,
-                          flexDirection: "row",
-                          alignItems: "center",
-                          gap: 25,
-                        }}
-                      >
+
+                    <View style={componentStyles.timeRow}>
+                      <View style={componentStyles.clockRow}>
                         <FontAwesome6 name="clock" size={15} color="grey" />
-                        <Text style={{ color: "#5C5C5C" }}>
+                        <Text style={componentStyles.noteText}>
                           {habit.times && habit.times.length > 0
                             ? habit.times?.join(", ")
                             : "all day"}
                         </Text>
                       </View>
-                      <View
-                        style={{
-                          paddingHorizontal: 15,
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
+                      <View style={componentStyles.ellipsisContainer}>
                         <Text>
                           <FontAwesome6
                             name="ellipsis-vertical"
@@ -184,13 +117,12 @@ const HabitCard = ({
                   </View>
                 </View>
               )}
+
               <View
-                style={{
-                  backgroundColor: habit.category.colors[1],
-                  borderBottomLeftRadius: 5,
-                  borderBottomRightRadius: 5,
-                  alignItems: "center",
-                }}
+                style={[
+                  componentStyles.expandChevronContainer,
+                  { backgroundColor: habit.category.colors[1] },
+                ]}
               >
                 {isExpanded ? (
                   <FontAwesome6

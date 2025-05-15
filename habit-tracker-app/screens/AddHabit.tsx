@@ -70,7 +70,7 @@ const AddHabit = () => {
           touched,
           setFieldValue,
         }) => (
-          <View style={{ gap: 20 }}>
+          <View style={componentStyles.formContainer}>
             <View style={globalStyles.simpleContainer}>
               <Text>habit name</Text>
               <TextInput
@@ -85,10 +85,8 @@ const AddHabit = () => {
               )}
             </View>
 
-            <View
-              style={[globalStyles.simpleContainer, { marginHorizontal: -20 }]}
-            >
-              <Text style={{ paddingLeft: 20 }}>Categories</Text>
+            <View style={componentStyles.categoryScrollContainer}>
+              <Text style={componentStyles.categoryLabel}>Categories</Text>
               <ScrollView
                 contentContainerStyle={globalStyles.scrollView}
                 horizontal={true}
@@ -114,7 +112,12 @@ const AddHabit = () => {
                       size={24}
                       color={category.colors[0]}
                     />
-                    <Text style={{ color: category.colors[0] }}>
+                    <Text
+                      style={[
+                        componentStyles.categoryText,
+                        { color: category.colors[0] },
+                      ]}
+                    >
                       {category.name}
                     </Text>
                   </TouchableOpacity>
@@ -150,7 +153,7 @@ const AddHabit = () => {
                 }}
                 style={componentStyles.repeatDaily}
               >
-                <Text style={{ fontWeight: "600" }}>
+                <Text style={componentStyles.repeatDailyText}>
                   {allDays.every((day) => values.days.includes(day))
                     ? "Clear All"
                     : "Everyday"}
@@ -170,6 +173,7 @@ const AddHabit = () => {
                 <Text style={globalStyles.errorText}>{errors.days}</Text>
               )}
             </View>
+
             <View style={globalStyles.simpleContainer}>
               <Text>Add Time</Text>
               <TimeSelector
