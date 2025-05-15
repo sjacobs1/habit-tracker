@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Alert } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
@@ -15,6 +15,7 @@ import TimeSelector from "../components/TimeSelector";
 import globalStyles from "../styles/globalStyles/globalStyles";
 import componentStyles from "../styles/componentStyles/componentStyles";
 import { ScrollView } from "react-native-gesture-handler";
+import { Keyboard } from "react-native";
 
 const AddHabit = () => {
   const addHabit = useHabitStore((state) => state.addHabit);
@@ -39,7 +40,7 @@ const AddHabit = () => {
     times: [] as string[],
   };
 
-  const handleSubmit = (values: typeof initialValues) => {
+  const handleSubmit = (values: typeof initialValues, { resetForm }: any) => {
     const newHabit: Habit = {
       id: uuid.v4(),
       category: values.category as HabitCategory,
@@ -52,6 +53,11 @@ const AddHabit = () => {
 
     addHabit(newHabit);
     console.log("New Habit Added:", newHabit);
+    Keyboard.dismiss();
+
+    Alert.alert("Habit added", `${values.name}`, [
+      { text: "OK", onPress: () => resetForm() },
+    ]);
   };
 
   return (
