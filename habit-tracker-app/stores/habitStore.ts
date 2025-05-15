@@ -8,7 +8,7 @@ interface HabitStore {
   //   updateHabit: (id: string, updatedHabit: Partial<Habit>) => void;
 }
 
-export const useHabitStore = create<HabitStore>((set) => ({
+export const useHabitStore = create<HabitStore>((set, get) => ({
   habits: [],
   addHabit: (habit) => set((state) => ({ habits: [...state.habits, habit] })),
   // removeHabit: (id) => set((state) => ({ habits: state.habits.filter(habit => habit.id !== id) })),
