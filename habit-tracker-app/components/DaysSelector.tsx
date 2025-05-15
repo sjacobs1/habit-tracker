@@ -8,20 +8,25 @@ interface Day {
 
 interface DaysSelectorProps {
   days: Day[];
-  onToggle: (day: string) => void;
+  onToggle?: (day: string) => void;
   selectedDays: string[];
+  buttonStyle?: (isSelected: boolean) => object;
+  containerStyle?: object;
+  textStyle?: (isSelected: boolean) => object;
 }
 
-const DaysSelector = ({ days, onToggle, selectedDays }: DaysSelectorProps) => {
+
+const DaysSelector = ({ days, onToggle, selectedDays, containerStyle, buttonStyle, textStyle }: DaysSelectorProps) => {
   return (
-    <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+    <View style={[{flexDirection: "row", justifyContent: "space-evenly"}, containerStyle ]}>
       {days.map((day) => {
         const isSelected = selectedDays.includes(day.value);
         return (
           <TouchableOpacity
             key={day.value}
-            onPress={() => onToggle(day.value)}
-            style={{
+            disabled={!onToggle}
+            onPress={() => onToggle?.(day.value)}
+            style={[{
               width: 36,
               height: 36,
               borderRadius: 18,
@@ -29,9 +34,9 @@ const DaysSelector = ({ days, onToggle, selectedDays }: DaysSelectorProps) => {
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: isSelected ? "#3B82F6" : "#E5E7EB",
-            }}
+      }, buttonStyle?.(isSelected)]}
           >
-            <Text style={{color: isSelected ? "white" : "black"}}>{day.initial}</Text>
+            <Text style={[{ color: isSelected ? "white" : "black" }, textStyle?.(isSelected)]}>{day.initial}</Text>
           </TouchableOpacity>
         );
       })}

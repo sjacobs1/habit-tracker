@@ -1,9 +1,9 @@
 export const weekDays = [
-    {value: "sunday", initial: "S"},
-    {value: "monday", initial: "M"},
-    {value: "tuesday", initial: "T"},
-    {value: "wednesday", initial: "W"},
-    {value: "thursday", initial: "T"},
-    {value: "friday", initial: "F"},
-    {value: "saturday", initial: "S"},
+    {value: "sun", initial: "S"},
+    {value: "mon", initial: "M"},
+    {value: "tues", initial: "T"},
+    {value: "wed", initial: "W"},
+    {value: "thu", initial: "T"},
+    {value: "fri", initial: "F"},
+    {value: "sat", initial: "S"},
 ]

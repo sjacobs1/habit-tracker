@@ -41,6 +41,9 @@ const globalStyles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
   },
+
+  //colors
+  
 });
 
 export default globalStyles;
