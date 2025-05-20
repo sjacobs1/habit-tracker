@@ -108,6 +108,7 @@ const componentStyles = StyleSheet.create({
   },
   ellipsisContainer: {
     paddingHorizontal: 15,
+    paddingVertical: 7,
     justifyContent: "center",
     alignItems: "center",
   },
