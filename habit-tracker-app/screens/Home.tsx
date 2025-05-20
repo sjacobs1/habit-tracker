@@ -10,12 +10,28 @@ const Home = () => {
   const [expandedHabitId, setExpandedHabitId] = useState<string | null>(null);
 
   const habits = useHabitStore((state) => state.habits);
+  const today = new Date();
+const dayOfWeekNumber = today.getDay();
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const dayOfWeekName = daysOfWeek[dayOfWeekNumber];
+
+console.log("Today is " + dayOfWeekName);
+
 
   return (
     <ScrollView style={globalStyles.pageContainer}>
       <View>
+        <Text>Today's habits</Text>
         <HabitCard
-          habits={habits}
+          habits={habits.filter((habit) => habit.days.includes(dayOfWeekName))}
+          expandedHabitId={expandedHabitId}
+          setExpandedHabitId={setExpandedHabitId}
+        />
+      </View>
+      <View>
+        <Text>Other habits</Text>
+        <HabitCard
+          habits={habits.filter((habit) => !habit.days.includes(dayOfWeekName))}
           expandedHabitId={expandedHabitId}
           setExpandedHabitId={setExpandedHabitId}
         />
