@@ -1,10 +1,17 @@
-import { View, Text, Pressable } from "react-native";
-import React from "react";
+import { View, Text, Pressable, Alert } from "react-native";
+import React, { useState } from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { Habit } from "../models/habitModel";
 import DaysSelector from "./DaysSelector";
 import { weekDays } from "../constants/daysOfTheWeek";
 import componentStyles from "../styles/componentStyles/componentStyles";
+import {
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+  Menu,
+} from "react-native-popup-menu";
+import { useHabitStore } from "../stores/habitStore";
 
 interface HabitCardProps {
   habits: Habit[];
@@ -17,6 +24,19 @@ const HabitCard = ({
   expandedHabitId,
   setExpandedHabitId,
 }: HabitCardProps) => {
+  const deleteHabit = useHabitStore((state) => state.deleteHabit);
+
+  const handleDelete = (habitName: string, onDelete: () => void) => {
+    Alert.alert(
+      "Delete Habit",
+      `Are you sure you want to delete '${habitName}'?`,
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", style: "destructive", onPress: onDelete },
+      ]
+    );
+  };
+
   return (
     <>
       {habits.map((habit) => {
@@ -47,7 +67,9 @@ const HabitCard = ({
                 </View>
                 <View style={componentStyles.cardTextWrapper}>
                   <Text>{habit.name}</Text>
-                  <Text style={{ color: habit.category.colors[0], fontSize: 12 }}>
+                  <Text
+                    style={{ color: habit.category.colors[0], fontSize: 12 }}
+                  >
                     {habit.category.name}
                   </Text>
                 </View>
@@ -62,7 +84,9 @@ const HabitCard = ({
                     <View style={componentStyles.noteRow}>
                       <FontAwesome6 name="sticky-note" size={15} color="grey" />
                       {habit.note ? (
-                        <Text style={componentStyles.noteText}>{habit.note}</Text>
+                        <Text style={componentStyles.noteText}>
+                          {habit.note}
+                        </Text>
                       ) : (
                         <Text style={componentStyles.noNoteText}>
                           no note added
@@ -100,19 +124,82 @@ const HabitCard = ({
                         <FontAwesome6 name="clock" size={15} color="grey" />
                         <Text style={componentStyles.noteText}>
                           {habit.times && habit.times.length > 0
-                            ? habit.times?.join(", ")
+                            ? habit.times?.join(" • ")
                             : "all day"}
                         </Text>
                       </View>
-                      <View style={componentStyles.ellipsisContainer}>
-                        <Text>
+                      <Menu style={{ justifyContent: "center" }}>
+                        <MenuTrigger style={componentStyles.ellipsisContainer}>
                           <FontAwesome6
                             name="ellipsis-vertical"
-                            size={24}
+                            size={20}
                             color="black"
                           />
-                        </Text>
-                      </View>
+                        </MenuTrigger>
+
+                        <MenuOptions
+                          customStyles={{
+                            optionsContainer: {
+                              flexDirection: "row",
+                              backgroundColor: "white",
+                              borderRadius: 8,
+                              alignSelf: "flex-start",
+                              minWidth: 0,
+                              width: "auto",
+                              marginTop: -55,
+                              elevation: 1,
+                              shadowColor: "grey",
+                              shadowOffset: { width: 0, height: 2 },
+                              shadowOpacity: 0.1,
+                              shadowRadius: 3.84,
+                              padding: 5,
+                            },
+                          }}
+                        >
+                          <MenuOption
+                            onSelect={() =>
+                              handleDelete(habit.name, () =>
+                                deleteHabit(habit.id)
+                              )
+                            }
+                          >
+                            <View
+                              style={{
+                                alignItems: "center",
+                                flexDirection: "row",
+                                gap: 10,
+                                padding: 5,
+                                paddingHorizontal: 10,
+                              }}
+                            >
+                              <FontAwesome6
+                                name="trash-can"
+                                size={15}
+                                color="red"
+                              />
+                              <Text style={{ color: "red" }}>Delete</Text>
+                            </View>
+                          </MenuOption>
+                          <MenuOption onSelect={() => console.log("Edit")}>
+                            <View
+                              style={{
+                                alignItems: "center",
+                                flexDirection: "row",
+                                gap: 10,
+                                padding: 5,
+                                paddingHorizontal: 10,
+                              }}
+                            >
+                              <FontAwesome6
+                                name="edit"
+                                size={15}
+                                color="gray"
+                              />
+                              <Text>Edit</Text>
+                            </View>
+                          </MenuOption>
+                        </MenuOptions>
+                      </Menu>
                     </View>
                   </View>
                 </View>
