@@ -29,7 +29,7 @@ const HabitCard = ({
   const handleDelete = (habitName: string, onDelete: () => void) => {
     Alert.alert(
       "Delete Habit",
-      `Are you sure you want to delete '${habitName}'?`,
+      `Are you sure you want to delete '${habitName}' ?`,
       [
         { text: "Cancel", style: "cancel" },
         { text: "Delete", style: "destructive", onPress: onDelete },
