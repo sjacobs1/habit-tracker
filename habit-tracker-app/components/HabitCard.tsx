@@ -75,11 +75,11 @@ const HabitCard = ({
                     {habit.category.name}
                   </Text>
                 </View>
-                {isTodaysHabit && (
+                <View style={{flex: 1}}>{isTodaysHabit && (
                   <View style={componentStyles.cardRightIcon}>
                     <FontAwesome6 name="circle" size={24} color="lightgrey" />
                   </View>
-                )}
+                )}</View>
               </View>
 
               {isExpanded && (
