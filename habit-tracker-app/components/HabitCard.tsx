@@ -143,21 +143,7 @@ const HabitCard = ({
 
                         <MenuOptions
                           customStyles={{
-                            optionsContainer: {
-                              flexDirection: "row",
-                              backgroundColor: "white",
-                              borderRadius: 8,
-                              alignSelf: "flex-start",
-                              minWidth: 0,
-                              width: "auto",
-                              marginTop: -55,
-                              elevation: 1,
-                              shadowColor: "grey",
-                              shadowOffset: { width: 0, height: 2 },
-                              shadowOpacity: 0.1,
-                              shadowRadius: 3.84,
-                              padding: 5,
-                            },
+                            optionsContainer: componentStyles.menuOptionsContainer
                           }}
                         >
                           <MenuOption
@@ -168,13 +154,7 @@ const HabitCard = ({
                             }
                           >
                             <View
-                              style={{
-                                alignItems: "center",
-                                flexDirection: "row",
-                                gap: 10,
-                                padding: 5,
-                                paddingHorizontal: 10,
-                              }}
+                              style={componentStyles.editMenuRowOption}
                             >
                               <FontAwesome6
                                 name="trash-can"
@@ -186,13 +166,7 @@ const HabitCard = ({
                           </MenuOption>
                           <MenuOption onSelect={() => console.log("Edit")}>
                             <View
-                              style={{
-                                alignItems: "center",
-                                flexDirection: "row",
-                                gap: 10,
-                                padding: 5,
-                                paddingHorizontal: 10,
-                              }}
+                              style={componentStyles.editMenuRowOption}
                             >
                               <FontAwesome6
                                 name="edit"

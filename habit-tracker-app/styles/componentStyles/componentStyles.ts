@@ -21,7 +21,7 @@ const componentStyles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
   },
-    formContainer: {
+  formContainer: {
     gap: 20,
   },
   categoryScrollContainer: {
@@ -117,9 +117,31 @@ const componentStyles = StyleSheet.create({
     borderBottomRightRadius: 5,
     alignItems: "center",
   },
+  menuOptionsContainer: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    minWidth: 0,
+    width: "auto",
+    marginTop: -55,
+    elevation: 1,
+    shadowColor: "grey",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    padding: 5,
+  },
+  editMenuRowOption: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 10,
+    padding: 5,
+    paddingHorizontal: 10,
+  },
 
   // DaysSelector styles
-    daysSelectorContainer: {
+  daysSelectorContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
@@ -135,8 +157,17 @@ const componentStyles = StyleSheet.create({
     // color is handled dynamically in the component
   },
 
-
-
+  //home page styles
+  sectionTitleText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  placeholderContainer: {
+    alignItems: "center",
+    padding: 20,
+  },
+  noHabitsText: { fontStyle: "italic", color: "#666" },
+  addHabitLinkText: { color: "#3F8EFC", marginTop: 10 },
 });
 
 export default componentStyles;
