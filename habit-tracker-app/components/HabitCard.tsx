@@ -17,12 +17,14 @@ interface HabitCardProps {
   habits: Habit[];
   expandedHabitId: string | null;
   setExpandedHabitId: (id: string | null) => void;
+  isTodaysHabit: boolean;
 }
 
 const HabitCard = ({
   habits,
   expandedHabitId,
   setExpandedHabitId,
+  isTodaysHabit,
 }: HabitCardProps) => {
   const deleteHabit = useHabitStore((state) => state.deleteHabit);
 
@@ -73,9 +75,11 @@ const HabitCard = ({
                     {habit.category.name}
                   </Text>
                 </View>
-                <View style={componentStyles.cardRightIcon}>
-                  <FontAwesome6 name="circle" size={24} color="lightgrey" />
-                </View>
+                {isTodaysHabit && (
+                  <View style={componentStyles.cardRightIcon}>
+                    <FontAwesome6 name="circle" size={24} color="lightgrey" />
+                  </View>
+                )}
               </View>
 
               {isExpanded && (
