@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Modal } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HabitCard from "../components/HabitCard";
@@ -25,9 +25,10 @@ const Home = () => {
   return (
     <ScrollView style={globalStyles.pageContainer}>
       <View>
-        <Text>Today's habits</Text>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>Today's habits</Text>
         {todaysHabits.length > 0 ? (
           <HabitCard
+            isTodaysHabit={true}
             habits={todaysHabits}
             expandedHabitId={expandedHabitId}
             setExpandedHabitId={setExpandedHabitId}
@@ -47,8 +48,11 @@ const Home = () => {
       </View>
       {notTodaysHabits.length > 0 && (
         <View>
-          <Text>Scheduled for another day</Text>
+          <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+            Scheduled for another day
+          </Text>
           <HabitCard
+            isTodaysHabit={false}
             habits={notTodaysHabits}
             expandedHabitId={expandedHabitId}
             setExpandedHabitId={setExpandedHabitId}
