@@ -1,6 +1,12 @@
-import { View, Text, TouchableOpacity, TextInput, Alert } from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  Button,
+} from "react-native";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { HabitCategory } from "../models/habitCategoryModel";
@@ -20,6 +26,11 @@ import { Keyboard } from "react-native";
 const AddHabit = () => {
   const addHabit = useHabitStore((state) => state.addHabit);
   const allDays = weekDays.map((day) => day.value);
+  const [showFirstTimeRow, setShowFirstTimeRow] = useState(false);
+  const [showSecondTimeRow, setShowSecondTimeRow] = useState(false);
+  const [showThirdTimeRow, setShowThirdTimeRow] = useState(false);
+
+  const [timeRows, setTimeRows] = useState(0);
 
   const addHabitSchema = Yup.object().shape({
     name: Yup.string()
@@ -58,6 +69,24 @@ const AddHabit = () => {
     Alert.alert("Habit added", `${values.name}`, [
       { text: "OK", onPress: () => resetForm() },
     ]);
+
+    setTimeRows(0);
+    setShowFirstTimeRow(false);
+    setShowSecondTimeRow(false);
+    setShowThirdTimeRow(false);
+  };
+
+  const handlePlusTime = () => {
+    if (!showFirstTimeRow) {
+      setShowFirstTimeRow(true);
+      setTimeRows((prev) => prev + 1);
+    } else if (!showSecondTimeRow) {
+      setShowSecondTimeRow(true);
+      setTimeRows((prev) => prev + 1);
+    } else if (!showThirdTimeRow) {
+      setShowThirdTimeRow(true);
+      setTimeRows((prev) => prev + 1);
+    }
   };
 
   return (
@@ -182,17 +211,88 @@ const AddHabit = () => {
 
             <View style={globalStyles.simpleContainer}>
               <Text>Add Time</Text>
-              <TimeSelector
-                addTime={(time) => {
-                  const updatedTimes = [...values.times, time];
-                  setFieldValue("times", updatedTimes);
-                }}
-              />
-              {touched.times && errors.times && (
-                <Text style={globalStyles.errorText}>{errors.times}</Text>
+              {showFirstTimeRow === true && (
+                <>
+                  <View
+                    style={{
+                      backgroundColor: "lightgreen",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <TimeSelector
+                      addTime={(time) => {
+                        const updatedTimes = [...values.times];
+                        updatedTimes[0] = time;
+                        setFieldValue("times", updatedTimes);
+                      }}
+                    />
+                    <Button
+                      title="-"
+                      onPress={() => {
+                        setShowFirstTimeRow(false);
+                        setTimeRows(timeRows - 1);
+                      }}
+                    />
+                  </View>
+                </>
+              )}
+
+              {showSecondTimeRow === true && (
+                <>
+                  <View
+                    style={{
+                      backgroundColor: "lightgreen",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <TimeSelector
+                      addTime={(time) => {
+                        const updatedTimes = [...values.times];
+                        updatedTimes[1] = time;
+                        setFieldValue("times", updatedTimes);
+                      }}
+                    />
+                    <Button
+                      title="-"
+                      onPress={() => {
+                        setShowSecondTimeRow(false);
+                        setTimeRows(timeRows - 1);
+                      }}
+                    />
+                  </View>
+                </>
+              )}
+
+              {showThirdTimeRow === true && (
+                <>
+                  <View
+                    style={{
+                      backgroundColor: "lightgreen",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <TimeSelector
+                      addTime={(time) => {
+                        const updatedTimes = [...values.times];
+                        updatedTimes[2] = time;
+                        setFieldValue("times", updatedTimes);
+                      }}
+                    />
+                    <Button
+                      title="-"
+                      onPress={() => {
+                        setShowThirdTimeRow(false);
+                        setTimeRows(timeRows - 1);
+                      }}
+                    />
+                  </View>
+                </>
+              )}
+
+              {timeRows < 3 && (
+                <Button title="+plus" onPress={handlePlusTime} />
               )}
             </View>
-
             <TouchableOpacity onPress={() => handleSubmit()}>
               <Text>submit</Text>
             </TouchableOpacity>
