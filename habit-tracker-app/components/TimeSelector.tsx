@@ -8,18 +8,11 @@ interface TimeSelectorProps {
 
 const TimeSelector = ({ addTime }: TimeSelectorProps) => {
   const [selectedTime, setSelectedTime] = useState<Date | null>(null);
-
   const handleTimeChange = (event: any, date?: Date) => {
     if (date) {
       setSelectedTime(date);
-    }
-  };
-
-  const handleAddTime = () => {
-    if (selectedTime) {
-      const timeString = selectedTime.toTimeString().slice(0, 5);
+      const timeString = date.toTimeString().slice(0, 5);
       addTime(timeString);
-      setSelectedTime(null);
     }
   };
 
@@ -31,7 +24,6 @@ const TimeSelector = ({ addTime }: TimeSelectorProps) => {
         display="default"
         onChange={handleTimeChange}
       />
-      <Button title="Add Time" onPress={handleAddTime} />
     </View>
   );
 };
