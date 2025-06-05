@@ -1,18 +1,27 @@
-import { View, Text, Keyboard, Alert, TextInput, ScrollView, TouchableOpacity, Button } from 'react-native'
-import React, { useState } from 'react'
-import { useHabitStore } from '../stores/habitStore';
-import { weekDays } from '../constants/daysOfTheWeek';
+import {
+  View,
+  Text,
+  Keyboard,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import React, { useState } from "react";
+import { useHabitStore } from "../stores/habitStore";
+import { weekDays } from "../constants/daysOfTheWeek";
 import * as Yup from "yup";
-import { HabitCategory } from '../models/habitCategoryModel';
-import { Habit } from '../models/habitModel';
+import { HabitCategory } from "../models/habitCategoryModel";
+import { Habit } from "../models/habitModel";
 import uuid from "react-native-uuid";
-import globalStyles from '../styles/globalStyles/globalStyles';
-import { Formik } from 'formik';
-import componentStyles from '../styles/componentStyles/componentStyles';
-import { habitCategories } from '../constants/habitCategories';
-import { FontAwesome6 } from '@expo/vector-icons';
-import DaysSelector from './DaysSelector';
-import TimeSelector from './TimeSelector';
+import globalStyles from "../styles/globalStyles/globalStyles";
+import { Formik } from "formik";
+import componentStyles from "../styles/componentStyles/componentStyles";
+import { habitCategories } from "../constants/habitCategories";
+import { FontAwesome6 } from "@expo/vector-icons";
+import DaysSelector from "./DaysSelector";
+import TimeSelector from "./TimeSelector";
+import Toast from "react-native-toast-message";
 
 const AddHabitForm = () => {
   const addHabit = useHabitStore((state) => state.addHabit);
@@ -42,7 +51,10 @@ const AddHabitForm = () => {
     times: [] as string[],
   };
 
-  const handleSubmit = (values: typeof initialValues, { resetForm }: any) => {
+  const handleHabitSubmit = (
+    values: typeof initialValues,
+    { resetForm }: any
+  ) => {
     const newHabit: Habit = {
       id: uuid.v4(),
       category: values.category as HabitCategory,
@@ -57,9 +69,13 @@ const AddHabitForm = () => {
     console.log("New Habit Added:", newHabit);
     Keyboard.dismiss();
 
-    Alert.alert("Habit added", `${values.name}`, [
-      { text: "OK", onPress: () => resetForm() },
-    ]);
+    resetForm();
+
+    Toast.show({
+      type: "success",
+      text1: "Well done!",
+      text2: "Your new habit has been added. 🎉",
+    });
 
     setTimeRows(0);
     setShowFirstTimeRow(false);
@@ -85,7 +101,7 @@ const AddHabitForm = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={addHabitSchema}
-        onSubmit={handleSubmit}
+        onSubmit={handleHabitSubmit}
       >
         {({
           handleChange,
@@ -95,6 +111,7 @@ const AddHabitForm = () => {
           errors,
           touched,
           setFieldValue,
+          setFieldTouched,
         }) => (
           <View style={componentStyles.formContainer}>
             <View style={globalStyles.simpleContainer}>
@@ -102,7 +119,7 @@ const AddHabitForm = () => {
               <TextInput
                 placeholder="eg: drink water"
                 onChangeText={handleChange("name")}
-                onBlur={handleBlur("name")}
+                onBlur={() => setFieldTouched("name", false)}
                 value={values.name}
                 style={globalStyles.textInput}
               />
@@ -294,4 +311,4 @@ const AddHabitForm = () => {
   );
 };
 
-export default AddHabitForm
+export default AddHabitForm;
