@@ -36,6 +36,24 @@ const componentStyles = StyleSheet.create({
   repeatDailyText: {
     fontWeight: "600",
   },
+  toastContainer: {
+    backgroundColor: "white",
+    padding: 20,
+    width: "90%",
+    shadowColor: "grey",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    borderRadius: 8,
+    borderColor: "#1cae17",
+    borderLeftWidth: 7,
+  },
+  toastText1: {
+    fontWeight: "bold",
+  },
+  toastText2: {
+    fontWeight: "300",
+  },
 
   // HabitCard styles
   cardContainer: {
