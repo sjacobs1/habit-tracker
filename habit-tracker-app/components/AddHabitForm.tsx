@@ -239,6 +239,9 @@ const AddHabitForm = () => {
                       onPress={() => {
                         setShowFirstTimeRow(false);
                         setTimeRows(timeRows - 1);
+                        const updatedTimes = [...values.times];
+                        updatedTimes.splice(0, 1);
+                        setFieldValue("times", updatedTimes);
                       }}
                     />
                   </View>
@@ -265,6 +268,9 @@ const AddHabitForm = () => {
                       onPress={() => {
                         setShowSecondTimeRow(false);
                         setTimeRows(timeRows - 1);
+                        const updatedTimes = [...values.times];
+                        updatedTimes.splice(1, 1);
+                        setFieldValue("times", updatedTimes);
                       }}
                     />
                   </View>
@@ -291,6 +297,9 @@ const AddHabitForm = () => {
                       onPress={() => {
                         setShowThirdTimeRow(false);
                         setTimeRows(timeRows - 1);
+                        const updatedTimes = [...values.times];
+                        updatedTimes.splice(2, 1);
+                        setFieldValue("times", updatedTimes);
                       }}
                     />
                   </View>
